@@ -1,0 +1,31 @@
+import numpy
+
+out, unique = 0, 0
+b = [0]*8000
+l = list(map(int, input().split(" ")))
+N, K = l[0], l[1]
+temp = list(map(int, input().split(" ")))
+
+for i in range(len(temp)):
+    if b[temp[i]] == 0:
+        unique += 1
+    b[temp[i]] += 1
+    # 2 2 3 3 5
+    # to calculate total no of distinct values
+
+solution = 1
+out = 0
+i=0
+
+while out < unique:
+    if b[i] > 0:
+        solution = solution * (1+b[i])
+        # // solution = {2,2,3,3,5} --> formula = (1+occurence of 2)(1+occurence of 3)(1+occ. of 5)
+        out += 1
+    i += 1
+
+total = solution % 1000000007
+print(total)
+
+
+

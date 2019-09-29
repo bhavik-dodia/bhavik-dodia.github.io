@@ -13,6 +13,13 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-analytics.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebase/7.0.0/firebase-auth.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 
 </head>
 
@@ -193,25 +200,24 @@
           <div id="sendmessage">You have logged in Successfully. Thank you!</div>
           <div id="errormessage"></div>
           <div class="newbox">
-          <form action="" method="post" role="form" class="form contactForm">
+          <form  class="form contactForm">
              <div class="col-md-4">
                <div class="form-group">
-                <input type="text" name="name" class="form-control" id="name" placeholder="Your Enrollment Number" data-rule="minlen:12"
-                  data-msg="Please enter at least 12 chars" />
+                <input type="text" name="en_no" class="form-control" id="en_no" placeholder="Your Enrollment Number">
+                <span id="errorEn_noMsg" class="errorMsg">Please enter correct enrollment number</span>
+                <span id="errorUserMsg" class="errorMsg">User not found</span>
                 <div class="validation"></div>
                </div>
            </div> 
              <div class="col-md-4">
                <div class="form-group">
-               <input type="Password" name="password" class="form-control" id="Password" placeholder="Password" data-rule="minlen:6"
-                  data-msg="Please Enter Correct Password" />
+               <input type="Password" name="password" class="form-control" id="Password" placeholder="Password">
+                <span id="errorPasswordMsg" class="errorMsg">Please enter correct password</span>
                 <div class="validation"></div>
                </div>
            </div>
             <div class="submit">
-            	<a href="grievances.html">
-              		<button class="btn btn-default" type="submit">LOGIN</button>
-            	</a>
+              		<button class="btn btn-default" type="submit" id="loginButton">LOGIN</button>
             </div>
           </form>
       </div>
@@ -333,6 +339,22 @@
   <script src="js/jquery.flexslider.js"></script>
   <script src="js/jquery.inview.js"></script>
   <script src="js/script.js"></script>
-  <script src="contactform/contactform.js"></script>
+  <script src="js/login.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#loginButton").click(function() {
+          if($.isNumeric($("#en_no").val()) == false || $("#en_no").val().length != 12) {
+              $("#errorEn_noMsg").show();
+              return false;
+          } else {
+              $("#errorEn_noMsg").hide();
+              submitLoginForm();
+              return false;
+          }
+      });
+  });
+  
+  </script>
+  <!-- <script src="contactform/contactform.js"></script> -->
 </body>
 </html>

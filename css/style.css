@@ -1119,7 +1119,11 @@ textarea:focus {
 #sendmessage.show, #errormessage.show, .show {
 	display:block;
 }
-
+.errorMsg {
+	display: none;
+	color: red;
+	text-align: center;
+}
 /*Get In Touch*/
 #get-touch {
 	box-sizing: border-box;

@@ -96,7 +96,6 @@
 		.errorMsg {
 			display: none;
 			color: red;
-			margin-left: 50%;
 		}
 
 		.form .submit {
@@ -364,7 +363,7 @@
 						<tr>
 							<td><label for="mobile">Mobile no</label></td>
 							<td> : </td>
-							<td><input type="text" name="mobile" id="mobile" placeholder="Enter your mobile no"
+							<td><input type="text" name="mobile" id="mobile" placeholder="Eg: +919876543210"
 									required></td>
 						</tr>
 						<tr>
@@ -373,7 +372,7 @@
 						<tr>
 							<td><label for="email">Email id</label></td>
 							<td> : </td>
-							<td><input type="text" name="email" id="email" placeholder="Enter your email id" required>
+							<td><input type="text" name="email" id="email" placeholder="Eg: abc@xyz.com" required>
 							</td>
 						</tr>
 						<tr>
@@ -386,18 +385,19 @@
 									required></td>
 						</tr>
 						<tr>
+							<td id="errorPasswordMsg" class="errorMsg">Please enter a password</td>
+						</tr>
+					<tr>
+						<tr>
 							<td><label for="confirmPassword">Confirm password</label></td>
 							<td> : </td>
 							<td><input type="password" name="confirmPassword" id="confirmPassword"
 									placeholder="Re-enter your password" required></td>
 						</tr>
 						<tr>
-							<td id="errorPasswordMsg" class="errorMsg">Password didn't match</td>
+							<td id="errorConfirmPasswordMsg" class="errorMsg">Password didn't match</td>
 						</tr>
 					</table>
-					<p>
-						<div id="recaptcha-container"></div>
-					</p>
 					<p>
 						<div class="submit">
 							<button class="btn btn-default" id="submitButton" type="submit">SUBMIT</button>
@@ -515,6 +515,10 @@
 			var regex = /^([a-zA-Z.])+$/;
 			return regex.test(name);
 		}
+		function isMobile(mobile) {
+			var regex = /^\+91+([0-9]{10})$/;
+			return regex.test(mobile);
+		}
 		$(document).ready(function () {
 			$("#submitButton").click(function () {
 				if (isName($("#fname").val()) == false) {
@@ -547,7 +551,7 @@
 				} else {
 					$("#errorSemesterMsg").hide();
 				}
-				if ($.isNumeric($("#mobile").val()) == false || $("#mobile").val().length != 10) {
+				if (isMobile($("#mobile").val()) == false) {
 					$("#errorMobileMsg").show();
 					return false;
 				} else {
@@ -559,12 +563,18 @@
 				} else {
 					$("#errorEmailMsg").hide();
 				}
-				if ($("#password").val() != $("#confirmPassword").val()) {
+				if($("#password").val() == "") {
 					$("#errorPasswordMsg").show();
+					return false;
+				} else {
+					$("#errorPasswordMsg").hide();
+				}
+				if ($("#password").val() != $("#confirmPassword").val()) {
+					$("#errorConfirmPasswordMsg").show();
 					return false;
 				}
 				else {
-					$("#errorPasswordMsg").hide();
+					$("#errorConfirmPasswordMsg").hide();
 				}
 				submitForm();
 				return false;

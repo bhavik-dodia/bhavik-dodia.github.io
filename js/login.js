@@ -13,13 +13,17 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-//refernce users collection
+//reference users collection
 var userRef = firebase.firestore().collection("Users");
+var phoneNumber;
+
+
 
 //validating with database
-function submitLoginForm() {
+function valAndGenOTP() {
   var en_no = document.getElementById("en_no").value;
   var password = document.getElementById("Password").value;
+
   userRef
     .doc(en_no)
     .get()
@@ -31,50 +35,81 @@ function submitLoginForm() {
           .get()
           .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
-              if (doc.data().Password != password) {
+              var getPassword = doc.get("Password");
+              if (getPassword != password) {
                 document.getElementById("errorPasswordMsg").style.display =
                   "block";
+                return false;
               } else {
                 document.getElementById("errorPasswordMsg").style.display =
                   "none";
-                //      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("loginButton", {
-                //          'size': 'invisible',
-                //          'callback': function() {
-                //           // reCAPTCHA solved, allow signInWithPhoneNumber.
-                //           //var phoneNumber = getPhoneNumberFromUserInput();
-                //  var appVerifier = window.recaptchaVerifier;
-                //  firebase.auth().signInWithPhoneNumber("8469873001", appVerifier)
-                //      .then(function (confirmationResult) {
-                //        // SMS sent. Prompt user to type the code from the message, then sign the
-                //        // user in with confirmationResult.confirm(code).
-                //        window.confirmationResult = confirmationResult;
-                //       // var code = getCodeFromUserInput();
-                //         confirmationResult.confirm(code).then(function (result) {
-                //         // User signed in successfully.
-                //         var user = result.user;
-                //         // ...
-                //         }).catch(function () {
-                //         // User couldn't sign in (bad verification code?)
-                //         // ...
-                //         });
-                //      }).catch(function () {
-                //        // Error; SMS not sent
-                //        // ...
-                //      });
-                //          onSignInSubmit();
-                //            alert("working");
-                //          }
-                //    });
-
-                window.location = "grievances.html";
+                phoneNumber = doc.get("Phone Number");
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+                  'recaptcha-container');
+                // {
+                //   size: 'invisible',
+                //   callback: function (response) {
+                // reCAPTCHA solved, allow signInWithPhoneNumber.
+                //var en_no = document.getElementById("en_no").value;
+                // userRef
+                //   .where("Enrollment No", "==", en_no)
+                //   .get()
+                //   .then(function (querySnapshot) {
+                //     querySnapshot.forEach(function (doc) {
+                //       var phoneNumber = doc.get("Phone Number");
+                var appVerifier = window.recaptchaVerifier;
+                firebase
+                  .auth()
+                  .signInWithPhoneNumber(phoneNumber, appVerifier)
+                  .then(function (confirmationResult) {
+                    // SMS sent. Prompt user to type the code from the message, then sign the
+                    // user in with confirmationResult.confirm(code).
+                    window.confirmationResult = confirmationResult;
+                    window.alert("Message sent successfully.");
+                  })
+                  .catch(function () {
+                    window.alert(
+                      "Something went wrong.\n SMS not sent"
+                    );
+                    window.recaptchaVerifier.render().then(function (widgetId) {
+                      grecaptcha.reset(widgetId);
+                    });
+                  });
               }
             });
-          })
-          .catch(function () {
+          }).catch(function () {
             window.alert("Something went wrong. Please try again");
           });
-      } else {
-        $("#errorUserMsg").show();
       }
+      else {
+        $("#errorUserMsg").show();
+        return false;
+      }
+    }).catch(function () {
+      window.alert("Something went wrong. Please try again");
+    });
+}
+
+
+//function to generate OTP
+
+//       });
+//     });
+// }
+//function for otp verification
+function verifyCode() {
+  var code = document.getElementById("verCode").value;
+  confirmationResult
+    .confirm(code)
+    .then(function () {
+      alert("Login process successfull!\n Redirecting");
+      window.location.href = "grievances.html";
+      // User signed in successfully.
+    })
+    .catch(function () {
+      window.alert("User couldn't sign in (bad verification code?)");
+      window.recaptchaVerifier.render().then(function (widgetId) {
+        grecaptcha.reset(widgetId);
+      });
     });
 }

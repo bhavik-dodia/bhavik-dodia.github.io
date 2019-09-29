@@ -32,7 +32,7 @@ function chkUser() {
         return false;
       }
     })
-    .catch(function() {
+    .catch(function () {
       window.alert("Something went wrong. Please try again");
     });
 }
@@ -47,8 +47,8 @@ function submitGrievance(en_no) {
   userRef
     .where("Enrollment No", "==", en_no)
     .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
         var fname = doc.get("First Name");
         var lname = doc.get("Last Name");
         var en_no = doc.get("Enrollment No");
@@ -68,8 +68,9 @@ function submitGrievance(en_no) {
       });
     });
 
-  setTimeout(function() {
-    window.alert("Grievance submitted successfully.");
+  setTimeout(function () {
+    window.alert("Grievance submitted successfully.\n Signing out");
+    window.location.href = "index.html";
   }, 3000);
 }
 
@@ -89,7 +90,7 @@ function saveGrievance(
   subject,
   description
 ) {
-  var newGrievanceRef = grievanceRef.doc("Forms/" + en_no);
+  const newGrievanceRef = grievanceRef.doc("Forms/" + en_no);
   var timeStamp = firebase.firestore.FieldValue.serverTimestamp();
   newGrievanceRef
     .set({
@@ -103,7 +104,7 @@ function saveGrievance(
       Subject: subject,
       Description: description
     })
-    .catch(function() {
+    .catch(function () {
       window.alert("Something went wrong. Please try again");
     });
 }

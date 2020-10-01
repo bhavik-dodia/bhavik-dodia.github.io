@@ -8254,6 +8254,7 @@ a.text-dark:hover {
   text-align: center;
 }
 .portfolio-block.block-intro .about-me {
+  font-family: Georgia;
   max-width: 800px;
   margin: 0 auto;
   text-align: justify;

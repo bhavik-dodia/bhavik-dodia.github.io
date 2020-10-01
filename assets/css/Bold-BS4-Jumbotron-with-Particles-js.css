@@ -1,7 +1,7 @@
 .jumbotron.jumbotron-main {
   height: 100%;
   width: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: Georgia;
   color: #fff;
   padding-top: 0;
   padding-bottom: 0;
@@ -54,4 +54,3 @@
   display: table;
   height: 100%;
 }
-

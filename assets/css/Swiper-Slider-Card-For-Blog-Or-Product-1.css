@@ -199,19 +199,22 @@
 .blog-slider__title {
   font-size: 24px;
   font-weight: 700;
+  font-family: 'Courier New', Courier, monospace;
   color: #0d0925;
   margin-bottom: 20px;
 }
 
 .blog-slider__text {
+  font-weight: 600;
   color: #4e4a67;
+  font-family: 'Courier New', Courier, monospace;
   margin-bottom: 30px;
   line-height: 1.5em;
 }
 
 .blog-slider__button {
   display: inline-flex;
-  background-image: linear-gradient(147deg, #fe8a39 0%, #fd3838 74%);
+  background-image: linear-gradient(147deg, #fe8a39 0%, #DB4437 74%);
   padding: 15px 35px;
   border-radius: 50px;
   color: #fff;
@@ -292,4 +295,3 @@
     width: 30px;
   }
 }
-
